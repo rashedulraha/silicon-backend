@@ -1,0 +1,89 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum PropertyStatus {
+  available
+  pending
+  sold
+  rented
+}
+
+enum InquiryStatus {
+  pending
+  reviewed
+  contacted
+  resolved
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(user)
+  inquiries Inquiry[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([email])
+}
+
+model Property {
+  id            String         @id @default(uuid())
+  title         String
+  slug          String         @unique
+  description   String
+  price         Decimal        @db.Decimal(12, 2)
+  address       String
+  city          String
+  state         String?
+  zipCode       String?
+  latitude      Float?
+  longitude     Float?
+  
+  // Flattened features structure
+  bedrooms      Int
+  bathrooms     Int
+  areaSqFt      Int
+  parkingSpaces Int            @default(0)
+  hasPool       Boolean        @default(false)
+  hasGarden     Boolean        @default(false)
+  yearBuilt     Int?
+  
+  status        PropertyStatus @default(available)
+  images        String[]       // Native string array supported in PG
+  inquiries     Inquiry[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([price])
+  @@index([city])
+  @@index([status])
+}
+
+model Inquiry {
+  id         String        @id @default(uuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  message    String
+  status     InquiryStatus @default(pending)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([propertyId])
+  @@index([status])
+}
