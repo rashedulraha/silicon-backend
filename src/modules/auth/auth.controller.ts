@@ -1,42 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
-import prisma from '../config/db';
+import * as authService from './auth.service';
 import {
-  hashPassword,
   comparePassword,
   generateJWT,
   setAuthCookie,
   clearAuthCookie,
-} from '../utils/auth';
-import { mapPrismaUserToIUser } from '../utils/mappers';
+} from '../../utils/auth';
+import { mapPrismaUserToIUser } from '../../utils/mappers';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: 'All fields (name, email, password) are required' });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
-    });
-
+    const existingUser = await authService.findUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email is already registered' });
     }
 
-    const hashedPassword = await hashPassword(password);
-
-    const newUser = await prisma.user.create({
-      data: {
-        name,
-        email: email.toLowerCase(),
-        password: hashedPassword,
-        role: 'user', // Default role is user
-      },
-    });
-
+    const newUser = await authService.createUser({ name, email, password });
     const token = generateJWT(newUser.id, newUser.email, newUser.role as any);
+    
     setAuthCookie(res, token);
 
     return res.status(201).json({
@@ -45,7 +28,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       user: mapPrismaUserToIUser(newUser),
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -53,14 +36,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: 'Email and password are required' });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
-    });
-
+    const user = await authService.findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
@@ -79,7 +55,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       user: mapPrismaUserToIUser(user),
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -91,7 +67,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
       message: 'Logged out successfully',
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -101,10 +77,7 @@ export const getMe = async (req: Request, res: Response, next: NextFunction) => 
       return res.status(401).json({ success: false, message: 'Not authenticated' });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-    });
-
+    const user = await authService.findUserById(req.user.id);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -114,6 +87,6 @@ export const getMe = async (req: Request, res: Response, next: NextFunction) => 
       user: mapPrismaUserToIUser(user),
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };

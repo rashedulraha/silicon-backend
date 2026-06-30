@@ -1,20 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserRole } from '../types/db';
+import { Role } from '@prisma/client';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-signing-key-change-in-production';
 
 export interface TokenPayload {
   sub: string;
   email: string;
-  role: UserRole;
+  role: Role;
 }
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   // 1. Read token from HTTP-only cookie
   let token = req.cookies?.token;
 
-  // 2. Fallback to Authorization header if cookies are not present
+  // 2. Fallback to Authorization header
   if (!token && req.headers.authorization?.startsWith('Bearer ')) {
     token = req.headers.authorization.split(' ')[1];
   }
@@ -29,7 +29,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     req.user = {
       id: decoded.sub,
       email: decoded.email,
-      role: decoded.role,
+      role: decoded.role as any, // Mapped to the user role
     };
 
     next();
@@ -38,13 +38,13 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   }
 };
 
-export const authorizeRoles = (...roles: UserRole[]) => {
+export const authorizeRoles = (...roles: Role[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 
-    if (!roles.includes(req.user.role)) {
+    if (!roles.includes(req.user.role as Role)) {
       return res.status(403).json({ success: false, message: 'Access Denied: Insufficient Permissions' });
     }
 

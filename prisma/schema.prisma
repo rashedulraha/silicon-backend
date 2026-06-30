@@ -32,9 +32,9 @@ model User {
   email     String    @unique
   password  String
   role      Role      @default(user)
-  inquiries Inquiry[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  inquiries Inquiry[]
 
   @@index([email])
 }
@@ -51,8 +51,6 @@ model Property {
   zipCode       String?
   latitude      Float?
   longitude     Float?
-  
-  // Flattened features structure
   bedrooms      Int
   bathrooms     Int
   areaSqFt      Int
@@ -60,12 +58,11 @@ model Property {
   hasPool       Boolean        @default(false)
   hasGarden     Boolean        @default(false)
   yearBuilt     Int?
-  
+  images        String[]
   status        PropertyStatus @default(available)
-  images        String[]       // Native string array supported in PG
-  inquiries     Inquiry[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  inquiries     Inquiry[]
 
   @@index([price])
   @@index([city])
@@ -75,13 +72,14 @@ model Property {
 model Inquiry {
   id         String        @id @default(uuid())
   userId     String
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   propertyId String
-  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   message    String
   status     InquiryStatus @default(pending)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([propertyId])
