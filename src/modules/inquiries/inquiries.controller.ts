@@ -4,6 +4,8 @@ import * as propertiesService from '../properties/properties.service';
 import { mapPrismaInquiryToIInquiry } from '../../utils/mappers';
 import { InquiryStatus } from '@prisma/client';
 
+
+
 export const createInquiry = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { propertyId, message } = req.body;

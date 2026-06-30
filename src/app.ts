@@ -50,6 +50,11 @@ app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", timestamp: new Date() });
 });
 
+app.use("/",(req:Request,res:Response)=>{
+    res.status(200).json({
+        success:true, message:"Hello root route"
+    })
+})
 // Global Error Handler
 app.use(errorHandler);
 

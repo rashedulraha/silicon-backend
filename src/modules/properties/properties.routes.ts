@@ -2,12 +2,13 @@ import { Router } from 'express';
 import * as propertiesController from './properties.controller';
 import { validate } from '../../middleware/validate.middleware';
 import { authenticateJWT, authorizeRoles } from '../../middleware/auth.middleware';
+import { Role } from '@prisma/client';
 import {
   queryPropertiesSchema,
   createPropertySchema,
   updatePropertySchema,
 } from './properties.validation';
-import { Role } from '@prisma/client';
+
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.get('/:slug', propertiesController.getPropertyBySlug);
 router.post(
   '/',
   authenticateJWT,
-  authorizeRoles(Role.admin),
+  authorizeRoles(Role.ADMIN),
   validate({ body: createPropertySchema }),
   propertiesController.createProperty
 );
@@ -31,7 +32,7 @@ router.post(
 router.put(
   '/:id',
   authenticateJWT,
-  authorizeRoles(Role.admin),
+  authorizeRoles(Role.ADMIN),
   validate({ body: updatePropertySchema }),
   propertiesController.updateProperty
 );
@@ -39,7 +40,7 @@ router.put(
 router.delete(
   '/:id',
   authenticateJWT,
-  authorizeRoles(Role.admin),
+  authorizeRoles(Role.ADMIN),
   propertiesController.deleteProperty
 );
 
