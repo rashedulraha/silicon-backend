@@ -55,7 +55,7 @@ export const getAdminInquiries = async (req: Request, res: Response, next: NextF
   }
 };
 
-export const updateInquiryStatus = async (req: Request, res: Response, next: NextFunction) => {
+export const updateInquiryStatus = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const { status } = req.body;

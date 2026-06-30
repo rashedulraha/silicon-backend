@@ -1,16 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "lib": ["ES2022"],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "types": ["node"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": false
   },
-  "include": ["src/**/*"]
+  // "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

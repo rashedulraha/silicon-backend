@@ -22,7 +22,7 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const getPropertyBySlug = async (req: Request, res: Response, next: NextFunction) => {
+export const getPropertyBySlug = async (req: Request<{ slug: string }>, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params;
     const property = await propertiesService.getPropertyBySlug(slug);
@@ -54,7 +54,7 @@ export const createProperty = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const updateProperty = async (req: Request, res: Response, next: NextFunction) => {
+export const updateProperty = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
@@ -75,7 +75,7 @@ export const updateProperty = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const deleteProperty = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteProperty = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 

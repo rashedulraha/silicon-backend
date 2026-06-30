@@ -52,20 +52,27 @@ siliconpvt-backend/
 ## Installation & Getting Started
 
 ### 1. Prerequisite Packages
+
 Install dependencies (already complete):
+
 ```bash
 npm install
 ```
 
 ### 2. Configure Environment Variables
+
 Copy `.env.example` into a `.env` file:
+
 ```bash
 cp .env.example .env
 ```
+
 Ensure you update the `DATABASE_URL` with your valid PostgreSQL connection string, and set a custom `JWT_SECRET`.
 
 ### 3. Generate Database Client and Migrate
+
 Prisma uses the schema inside `prisma/schema.prisma` to configure schemas. Run:
+
 ```bash
 # Generate the Prisma client files
 npx prisma generate
@@ -75,11 +82,12 @@ npx prisma migrate dev --name init
 ```
 
 ### 4. Running the Project
-* **Development Server** (Runs with live reloading via `ts-node-dev` on port `5000`):
+
+- **Development Server** (Runs with live reloading via `ts-node-dev` on port `5000`):
   ```bash
   npm run dev
   ```
-* **Production Build**:
+- **Production Build**:
   ```bash
   npm run build
   npm start
@@ -90,20 +98,23 @@ npx prisma migrate dev --name init
 ## API Matrix Reference
 
 ### 1. Authentication (`/api/v1/auth`)
-* `POST /register`: Registers user, hashes password, returns set-cookie `token`.
-* `POST /login`: Authenticates user, returns set-cookie `token`.
-* `POST /logout`: Clears the `token` cookie.
-* `GET /me` (Auth required): Returns the logged-in user profile.
+
+- `POST /register`: Registers user, hashes password, returns set-cookie `token`.
+- `POST /login`: Authenticates user, returns set-cookie `token`.
+- `POST /logout`: Clears the `token` cookie.
+- `GET /me` (Auth required): Returns the logged-in user profile.
 
 ### 2. Properties (`/api/v1/properties`)
-* `GET /`: Retrieves paginated property listings. Filters: `page`, `limit`, `city`, `minPrice`, `maxPrice`, `bedrooms`, `bathrooms`, `status`, `search`.
-* `GET /:slug`: Retrieves a single property listing by SEO slug.
-* `POST /` (Admin required): Creates a property listing. Generates a unique SEO slug from title.
-* `PUT /:id` (Admin required): Updates property attributes (accepts nested details and updates database).
-* `DELETE /:id` (Admin required): Deletes listing.
+
+- `GET /`: Retrieves paginated property listings. Filters: `page`, `limit`, `city`, `minPrice`, `maxPrice`, `bedrooms`, `bathrooms`, `status`, `search`.
+- `GET /:slug`: Retrieves a single property listing by SEO slug.
+- `POST /` (Admin required): Creates a property listing. Generates a unique SEO slug from title.
+- `PUT /:id` (Admin required): Updates property attributes (accepts nested details and updates database).
+- `DELETE /:id` (Admin required): Deletes listing.
 
 ### 3. Inquiries (`/api/v1/inquiries` and `/api/v1/admin/inquiries`)
-* `POST /api/v1/inquiries` (Auth required): Client submits property inquiry.
-* `GET /api/v1/inquiries/my-inquiries` (Auth required): Client lists their submitted inquiries.
-* `GET /api/v1/admin/inquiries` (Admin required): Admin lists all inquiries. Filter: `?status=pending`.
-* `PUT /api/v1/admin/inquiries/:id` (Admin required): Admin updates inquiry status (`pending`, `reviewed`, `contacted`, `resolved`).
+
+- `POST /api/v1/inquiries` (Auth required): Client submits property inquiry.
+- `GET /api/v1/inquiries/my-inquiries` (Auth required): Client lists their submitted inquiries.
+- `GET /api/v1/admin/inquiries` (Admin required): Admin lists all inquiries. Filter: `?status=pending`.
+- `PUT /api/v1/admin/inquiries/:id` (Admin required): Admin updates inquiry status (`pending`, `reviewed`, `contacted`, `resolved`).
