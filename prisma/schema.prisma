@@ -4,4 +4,92 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  type        String   // plot, flat, commercial, project
+  category    String   // residential, commercial, industrial, luxury
+  status      String   @default("available") // available, booked, sold, rented
+  price       Float
+  location    String
+  areaSqFt    Float?
+  bedrooms    Int?
+  bathrooms   Int?
+  description String
+  features    String[]
+  images      String[]
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String
+  message    String
+  propertyId String?
+  status     String   @default("new") // new, contacted, qualified, closed
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Slide {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String
+  image     String
+  badge     String?
+  link      String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String   @id @default("global")
+  email        String
+  phone        String
+  hotline      String?
+  address      String
+  facebookUrl  String?
+  youtubeUrl   String?
+  aboutSummary String?
+  mission      String?
+  vision       String?
+  updatedAt    DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  image       String
+  category    String   @default("Company News")
+  author      String   @default("Silicon Editorial")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  category  String   // project | infrastructure | office | handovers
+  badge     String
+  location  String
+  overview  String
+  images    String[]
+  features  String[]
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
