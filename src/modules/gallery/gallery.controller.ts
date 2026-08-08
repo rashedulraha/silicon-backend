@@ -14,8 +14,11 @@ export class GalleryController {
   public static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const item = await GalleryService.getById(id);
-      if (!item) return res.status(404).json({ success: false, message: "Gallery item not found" });
+      const item = await GalleryService.getById(id as string);
+      if (!item)
+        return res
+          .status(404)
+          .json({ success: false, message: "Gallery item not found" });
       return res.status(200).json({ success: true, item });
     } catch (err: any) {
       return res.status(500).json({ success: false, message: err.message });
@@ -34,7 +37,7 @@ export class GalleryController {
   public static async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const item = await GalleryService.update(id, req.body);
+      const item = await GalleryService.update(id as string, req.body);
       return res.status(200).json({ success: true, item });
     } catch (err: any) {
       return res.status(500).json({ success: false, message: err.message });
@@ -44,8 +47,10 @@ export class GalleryController {
   public static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await GalleryService.delete(id);
-      return res.status(200).json({ success: true, message: "Gallery item deleted successfully" });
+      await GalleryService.delete(id as string);
+      return res
+        .status(200)
+        .json({ success: true, message: "Gallery item deleted successfully" });
     } catch (err: any) {
       return res.status(500).json({ success: false, message: err.message });
     }
