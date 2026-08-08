@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 import { ICreateLeadInput, IUpdateLeadInput } from "./lead.interface.js";
 
 export class LeadService {

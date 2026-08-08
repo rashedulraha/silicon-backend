@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 import { SeedService } from "../seed/seed.service.js";
 import { ICreateSlideInput, IUpdateSlideInput } from "./slide.interface.js";
 
@@ -15,7 +15,9 @@ export class SlideService {
       data: {
         title: data.title || "New Slide",
         subtitle: data.subtitle || "",
-        image: data.image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
+        image:
+          data.image ||
+          "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
         badge: data.badge || "FEATURED",
         link: data.link || "/projects",
         active: data.active !== undefined ? Boolean(data.active) : true,

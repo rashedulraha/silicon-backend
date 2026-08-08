@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 import { SeedService } from "../seed/seed.service.js";
 import { IUpdateSettingsInput } from "./setting.interface.js";
 
@@ -15,12 +15,16 @@ export class SettingService {
           email: "info@siliconrealestatepvtltd.com",
           phone: "+880 1711-000000",
           hotline: "16789",
-          address: "Silicon Real Estate Tower, Level 8, Purbachal Main Expressway, Dhaka-1229",
+          address:
+            "Silicon Real Estate Tower, Level 8, Purbachal Main Expressway, Dhaka-1229",
           facebookUrl: "https://facebook.com",
           youtubeUrl: "https://youtube.com",
-          aboutSummary: "Silicon Real Estate (Pvt.) Ltd. is a premier land developer in Dhaka dedicated to eco-friendly planned townships and legally sound plot registration.",
-          mission: "To provide dispute-free, RAJUK-compliant, planned residential & commercial land plots for every family in Bangladesh.",
-          vision: "To become Bangladesh's most trusted real estate developer through transparent documentation, planned infrastructure, and ethical service.",
+          aboutSummary:
+            "Silicon Real Estate (Pvt.) Ltd. is a premier land developer in Dhaka dedicated to eco-friendly planned townships and legally sound plot registration.",
+          mission:
+            "To provide dispute-free, RAJUK-compliant, planned residential & commercial land plots for every family in Bangladesh.",
+          vision:
+            "To become Bangladesh's most trusted real estate developer through transparent documentation, planned infrastructure, and ethical service.",
         },
       });
     }
@@ -46,14 +50,20 @@ export class SettingService {
         email: data.email || "info@siliconrealestatepvtltd.com",
         phone: data.phone || "+880 1711-000000",
         hotline: data.hotline || "16789",
-        address: data.address || "Silicon Real Estate Tower, Level 8, Purbachal Main Expressway, Dhaka-1229",
+        address:
+          data.address ||
+          "Silicon Real Estate Tower, Level 8, Purbachal Main Expressway, Dhaka-1229",
         facebookUrl: data.facebookUrl,
         youtubeUrl: data.youtubeUrl,
-        aboutSummary: data.aboutSummary || "Silicon Real Estate (Pvt.) Ltd. is a premier land developer in Dhaka.",
-        mission: data.mission || "Dispute-free, RAJUK-compliant planned residential land plots.",
-        vision: data.vision || "Bangladesh's most trusted real estate developer.",
+        aboutSummary:
+          data.aboutSummary ||
+          "Silicon Real Estate (Pvt.) Ltd. is a premier land developer in Dhaka.",
+        mission:
+          data.mission ||
+          "Dispute-free, RAJUK-compliant planned residential land plots.",
+        vision:
+          data.vision || "Bangladesh's most trusted real estate developer.",
       },
     });
   }
 }
-

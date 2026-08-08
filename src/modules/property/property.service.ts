@@ -1,6 +1,9 @@
-import { prisma } from "../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 import { SeedService } from "../seed/seed.service.js";
-import { ICreatePropertyInput, IUpdatePropertyInput } from "./property.interface.js";
+import {
+  ICreatePropertyInput,
+  IUpdatePropertyInput,
+} from "./property.interface.js";
 
 export class PropertyService {
   public static async getAllProperties() {
@@ -12,7 +15,12 @@ export class PropertyService {
 
   public static async createProperty(data: ICreatePropertyInput) {
     const slug = data.title
-      ? data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") + "-" + Date.now().toString().slice(-4)
+      ? data.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "") +
+        "-" +
+        Date.now().toString().slice(-4)
       : "property-" + Date.now();
 
     return await prisma.property.create({
@@ -29,9 +37,13 @@ export class PropertyService {
         bathrooms: data.bathrooms ? Number(data.bathrooms) : null,
         description: data.description || "",
         features: Array.isArray(data.features) ? data.features : [],
-        images: Array.isArray(data.images) && data.images.length > 0
-          ? data.images
-          : [data.image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"],
+        images:
+          Array.isArray(data.images) && data.images.length > 0
+            ? data.images
+            : [
+                data.image ||
+                  "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
+              ],
         featured: Boolean(data.featured),
       },
     });
@@ -47,13 +59,17 @@ export class PropertyService {
         status: data.status,
         price: data.price !== undefined ? Number(data.price) : undefined,
         location: data.location,
-        areaSqFt: data.areaSqFt !== undefined ? Number(data.areaSqFt) : undefined,
-        bedrooms: data.bedrooms !== undefined ? Number(data.bedrooms) : undefined,
-        bathrooms: data.bathrooms !== undefined ? Number(data.bathrooms) : undefined,
+        areaSqFt:
+          data.areaSqFt !== undefined ? Number(data.areaSqFt) : undefined,
+        bedrooms:
+          data.bedrooms !== undefined ? Number(data.bedrooms) : undefined,
+        bathrooms:
+          data.bathrooms !== undefined ? Number(data.bathrooms) : undefined,
         description: data.description,
         features: Array.isArray(data.features) ? data.features : undefined,
         images: Array.isArray(data.images) ? data.images : undefined,
-        featured: data.featured !== undefined ? Boolean(data.featured) : undefined,
+        featured:
+          data.featured !== undefined ? Boolean(data.featured) : undefined,
       },
     });
   }
