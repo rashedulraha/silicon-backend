@@ -1,89 +1,117 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
-  user
-  admin
+
+datasource db {
+  provider = "postgresql"
 }
 
-enum PropertyStatus {
-  available
-  pending
-  sold
-  rented
-}
 
-enum InquiryStatus {
-  pending
-  reviewed
-  contacted
-  resolved
-}
-
-model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  role      Role      @default(user)
-  inquiries Inquiry[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([email])
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Property {
-  id            String         @id @default(uuid())
-  title         String
-  slug          String         @unique
-  description   String
-  price         Decimal        @db.Decimal(12, 2)
-  address       String
-  city          String
-  state         String?
-  zipCode       String?
-  latitude      Float?
-  longitude     Float?
-  
-  // Flattened features structure
-  bedrooms      Int
-  bathrooms     Int
-  areaSqFt      Int
-  parkingSpaces Int            @default(0)
-  hasPool       Boolean        @default(false)
-  hasGarden     Boolean        @default(false)
-  yearBuilt     Int?
-  
-  status        PropertyStatus @default(available)
-  images        String[]       // Native string array supported in PG
-  inquiries     Inquiry[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-
-  @@index([price])
-  @@index([city])
-  @@index([status])
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  type        String   // plot, flat, commercial, project
+  category    String   // residential, commercial, industrial, luxury
+  status      String   @default("available") // available, booked, sold, rented
+  price       Float
+  location    String
+  areaSqFt    Float?
+  bedrooms    Int?
+  bathrooms   Int?
+  description String
+  features    String[]
+  images      String[]
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model Inquiry {
-  id         String        @id @default(uuid())
-  userId     String
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  propertyId String
-  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String
   message    String
-  status     InquiryStatus @default(pending)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  propertyId String?
+  status     String   @default("new") // new, contacted, qualified, closed
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
 
-  @@index([userId])
-  @@index([propertyId])
-  @@index([status])
+model Slide {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String
+  image     String
+  badge     String?
+  link      String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String   @id @default("global")
+  email        String
+  phone        String
+  hotline      String?
+  address      String
+  facebookUrl  String?
+  youtubeUrl   String?
+  aboutSummary String?
+  mission      String?
+  vision       String?
+  socialLinks  String?  // JSON stringified optional social links
+  updatedAt    DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  image       String
+  category    String   @default("Company News")
+  author      String   @default("Silicon Editorial")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  category  String   // project | infrastructure | office | handovers
+  badge     String
+  location  String
+  overview  String
+  images    String[]
+  features  String[]
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   // Chairman, Managing Director, Executive, etc.
+  speech    String   // Formal leadership address speech
+  image     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
