@@ -4,7 +4,6 @@ import { PropertyRoutes } from "../modules/property/property.routes.js";
 import { SlideRoutes } from "../modules/slide/slide.routes.js";
 import { SettingRoutes } from "../modules/setting/setting.routes.js";
 import { LeadRoutes } from "../modules/lead/lead.routes.js";
-import { BlogRoutes } from "../modules/blog/blog.routes.js";
 import { GalleryRoutes } from "../modules/gallery/gallery.routes.js";
 
 const router = Router();
@@ -15,7 +14,6 @@ const moduleRoutes = [
   { path: "/slides", route: SlideRoutes },
   { path: "/settings", route: SettingRoutes },
   { path: "/leads", route: LeadRoutes },
-  { path: "/blog", route: BlogRoutes },
   { path: "/gallery", route: GalleryRoutes },
 ];
 
@@ -24,5 +22,3 @@ moduleRoutes.forEach((route) => {
 });
 
 export const AppRouter = router;
-
-
