@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { AppRouter } from "./routes/index.js";
+import { AuthRoutes } from "./modules/auth/auth.routes.js";
 
 export const app = express();
 
@@ -22,5 +22,5 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/v1", AppRouter);
-app.use("/", AppRouter);
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/auth", () => {});
