@@ -86,10 +86,8 @@ export class SeedService {
 					data: [
 						{
 							title: "Silicon City Purbachal Expressway",
-							subtitle:
-								"100% Legally Verified, Risk-Free, and Ready-to-Register Land Plots",
-							image:
-								"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
+							subtitle: "100% Legally Verified, Risk-Free, and Ready-to-Register Land Plots",
+							image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600",
 							badge: "FEATURED PROJECT",
 							link: "/projects",
 							active: true,
@@ -97,15 +95,67 @@ export class SeedService {
 						},
 						{
 							title: "Modern Eco-Friendly Planned Living",
-							subtitle:
-								"Eco-Zoning, Wide Communication Avenues & 24/7 Security",
-							image:
-								"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600",
+							subtitle: "Eco-Zoning, Wide Communication Avenues & 24/7 Security",
+							image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600",
 							badge: "SMART INFRASTRUCTURE",
 							link: "/properties",
 							active: true,
 							order: 2,
 						},
+						{
+							title: "Lakefront Residential Area",
+							subtitle: "Enjoy serene views with premium lifestyle amenities.",
+							image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600",
+							badge: "PREMIUM",
+							link: "/projects",
+							active: true,
+							order: 3,
+						},
+						{
+							title: "Commercial Business District",
+							subtitle: "State-of-the-art facilities for your corporate headquarters.",
+							image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600",
+							badge: "COMMERCIAL",
+							link: "/projects",
+							active: true,
+							order: 4,
+						},
+						{
+							title: "Smart Green City Project",
+							subtitle: "Sustainable living integrated with cutting-edge technology.",
+							image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600",
+							badge: "SUSTAINABILITY",
+							link: "/projects",
+							active: true,
+							order: 5,
+						},
+						{
+							title: "Luxury Villas Estate",
+							subtitle: "Exclusive community for those who demand the best.",
+							image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
+							badge: "LUXURY",
+							link: "/projects",
+							active: true,
+							order: 6,
+						},
+						{
+							title: "Future Retail Hub",
+							subtitle: "Prime location for shopping centers and retail outlets.",
+							image: "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1600",
+							badge: "RETAIL",
+							link: "/projects",
+							active: true,
+							order: 7,
+						},
+						{
+							title: "Silicon City Central Park",
+							subtitle: "Vast open spaces and recreational facilities for your family.",
+							image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1600",
+							badge: "LIFESTYLE",
+							link: "/projects",
+							active: true,
+							order: 8,
+						}
 					],
 				});
 				console.log(
