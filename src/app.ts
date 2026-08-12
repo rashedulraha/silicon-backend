@@ -15,11 +15,11 @@ dotenv.config();
 
 // Root Health Check Route
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message:
-      "Silicon Real Estate Modular Backend API is running successfully with PostgreSQL & Prisma!",
-  });
+	res.status(200).json({
+		success: true,
+		message:
+			"Silicon Real Estate Modular Backend API is running successfully with PostgreSQL & Prisma!",
+	});
 });
 
 app.use("/api/v1/auth", AuthRoutes);
