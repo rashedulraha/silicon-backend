@@ -23,7 +23,7 @@ export class LeadController {
 	public static async updateLead(req: Request, res: Response) {
 		try {
 			const { id } = req.params;
-			const lead = await LeadService.updateLead(id, req.body);
+			const lead = await LeadService.updateLead(id as string, req.body);
 			return res.status(200).json({ success: true, lead });
 		} catch (err: any) {
 			return res.status(500).json({ success: false, message: err.message });

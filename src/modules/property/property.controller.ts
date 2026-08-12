@@ -23,7 +23,7 @@ export class PropertyController {
 	public static async updateProperty(req: Request, res: Response) {
 		try {
 			const { id } = req.params;
-			const property = await PropertyService.updateProperty(id, req.body);
+			const property = await PropertyService.updateProperty(id as string, req.body);
 			return res.status(200).json({ success: true, property });
 		} catch (err: any) {
 			return res.status(500).json({ success: false, message: err.message });
@@ -33,7 +33,7 @@ export class PropertyController {
 	public static async deleteProperty(req: Request, res: Response) {
 		try {
 			const { id } = req.params;
-			await PropertyService.deleteProperty(id);
+			await PropertyService.deleteProperty(id as string);
 			return res
 				.status(200)
 				.json({ success: true, message: "Property deleted successfully" });

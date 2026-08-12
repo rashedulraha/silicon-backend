@@ -23,7 +23,7 @@ export class SlideController {
 	public static async updateSlide(req: Request, res: Response) {
 		try {
 			const { id } = req.params;
-			const slide = await SlideService.updateSlide(id, req.body);
+			const slide = await SlideService.updateSlide(id as string, req.body);
 			return res.status(200).json({ success: true, slide });
 		} catch (err: any) {
 			return res.status(500).json({ success: false, message: err.message });
@@ -33,7 +33,7 @@ export class SlideController {
 	public static async deleteSlide(req: Request, res: Response) {
 		try {
 			const { id } = req.params;
-			await SlideService.deleteSlide(id);
+			await SlideService.deleteSlide(id as string);
 			return res
 				.status(200)
 				.json({ success: true, message: "Slide deleted successfully" });
