@@ -2,7 +2,7 @@ import "dotenv/config";
 import { app } from "./app.js";
 import prisma from "./lib/prisma.js";
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT) || 8000;
 
 async function startServer() {
 	try {
@@ -19,9 +19,9 @@ async function startServer() {
 			console.error("Error during initial data seeding:", seedErr);
 		}
 
-		app.listen(PORT, () => {
+		app.listen(PORT, "0.0.0.0", () => {
 			console.log(
-				`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`,
+				`Server is running in ${process.env.NODE_ENV || "production"} mode on port ${PORT}`,
 			);
 		});
 	} catch (error) {

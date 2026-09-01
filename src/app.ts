@@ -21,47 +21,33 @@ dotenv.config();
 
 export const app = express();
 
-const ALLOWED_ORIGINS = [
-	"https://www.siliconrealestatepvtltd.com",
-	"https://siliconrealestatepvtltd.com",
-	"https://www.siliconrealestate.com",
-	"https://siliconrealestate.com",
-	"http://localhost:3000",
-	"http://localhost:3001",
-	"http://localhost:5173",
-	"http://127.0.0.1:3000",
-];
-
-// Helper to determine allowed origin
-const isOriginAllowed = (origin?: string): boolean => {
-	if (!origin) return true;
-	if (ALLOWED_ORIGINS.includes(origin)) return true;
-	if (origin.endsWith(".vercel.app") || origin.includes("silicon")) return true;
-	if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return true;
-	if (process.env.CORS_ORIGIN && origin === process.env.CORS_ORIGIN) return true;
-	return true; // Permissive reflection to prevent CORS blockage while keeping credentials secure
-};
 
 // 1. Explicit top-level CORS header injection & preflight OPTIONS interceptor
 app.use((req: Request, res: Response, next: NextFunction) => {
 	const origin = req.headers.origin;
-	if (origin && isOriginAllowed(origin)) {
+	if (origin) {
 		res.setHeader("Access-Control-Allow-Origin", origin);
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-		res.setHeader(
-			"Access-Control-Allow-Methods",
-			"GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
-		);
-		res.setHeader(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept, Authorization, Cookie, Set-Cookie, x-access-token",
-		);
-		res.setHeader("Access-Control-Expose-Headers", "Set-Cookie, Authorization");
+	} else {
+		res.setHeader("Access-Control-Allow-Origin", "*");
 	}
+	res.setHeader("Access-Control-Allow-Credentials", "true");
+	res.setHeader(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
+	);
+	res.setHeader(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept, Authorization, Cookie, Set-Cookie, x-access-token, Cache-Control, Pragma",
+	);
+	res.setHeader(
+		"Access-Control-Expose-Headers",
+		"Set-Cookie, Authorization, Content-Disposition",
+	);
+	res.setHeader("Access-Control-Max-Age", "86400");
 
-	// Immediate 200 response for preflight OPTIONS
+	// Immediate 204 response for preflight OPTIONS
 	if (req.method === "OPTIONS") {
-		return res.status(200).end();
+		return res.sendStatus(204);
 	}
 
 	next();
@@ -84,9 +70,11 @@ app.use(
 			"Cookie",
 			"Set-Cookie",
 			"x-access-token",
+			"Cache-Control",
+			"Pragma",
 		],
-		exposedHeaders: ["Set-Cookie", "Authorization"],
-		optionsSuccessStatus: 200,
+		exposedHeaders: ["Set-Cookie", "Authorization", "Content-Disposition"],
+		optionsSuccessStatus: 204,
 	}),
 );
 
@@ -112,7 +100,7 @@ app.get("/health", (req: Request, res: Response) => {
 	});
 });
 
-// Mount Routes Helper for both /api/v1 and /api prefixes
+// Mount Routes Helper for /api/v1, /api, and root prefixes
 const mountRoutes = (prefix: string) => {
 	app.use(`${prefix}/auth`, AuthRoutes);
 	app.use(`${prefix}/contact-info`, ContactRoutes);
@@ -138,9 +126,15 @@ const mountRoutes = (prefix: string) => {
 
 mountRoutes("/api/v1");
 mountRoutes("/api");
+mountRoutes("");
 
 // 404 JSON Fallback with CORS headers preserved
 app.use((req: Request, res: Response) => {
+	const origin = req.headers.origin;
+	if (origin) {
+		res.setHeader("Access-Control-Allow-Origin", origin);
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+	}
 	res.status(404).json({
 		success: false,
 		message: `API Route not found: ${req.method} ${req.originalUrl}`,
@@ -149,6 +143,11 @@ app.use((req: Request, res: Response) => {
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+	const origin = req.headers.origin;
+	if (origin) {
+		res.setHeader("Access-Control-Allow-Origin", origin);
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+	}
 	console.error("[Global Error Handler]:", err);
 	res.status(err.status || 500).json({
 		success: false,
