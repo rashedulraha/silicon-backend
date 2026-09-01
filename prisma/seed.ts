@@ -63,7 +63,7 @@ async function main() {
 			},
 			{
 				id: "team-2",
-				name: "Engr. Rashedul Islam",
+				name: "Md. Sarowar Khaled",
 				role: "Managing Director",
 				speech: "Engineering perfection and RAJUK-compliant master planning are the cornerstones of Silicon Real Estate's development strategy. In Silicon City, we have engineered wide 30ft and 40ft internal road networks, integrated drainage systems, elevated soil levels above historic floodlines, and dedicated green spaces. Our technical commitment ensures that every homeowner receives instant sub-registry deeds alongside ready utility connections. We are not just selling land; we are constructing the sustainable smart township framework of future Dhaka.",
 				image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80",
