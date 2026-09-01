@@ -1,8 +1,27 @@
 import prisma from "../../lib/prisma.js";
+import bcrypt from "bcryptjs";
 
 export class SeedService {
 	public static async ensureSeedData() {
 		try {
+			// Ensure default admin user
+			const adminEmail = "admin@afiaholdingsltd.com";
+			const adminPass = "admin123456";
+			const existingAdmin = await prisma.admin.findUnique({
+				where: { email: adminEmail },
+			});
+			if (!existingAdmin) {
+				const passwordHash = bcrypt.hashSync(adminPass, 10);
+				await prisma.admin.create({
+					data: {
+						email: adminEmail,
+						passwordHash,
+						role: "admin",
+					},
+				});
+				console.log(`[SeedService] Created default admin account: ${adminEmail}`);
+			}
+
 			const propCount = await prisma.property.count();
 			if (propCount === 0) {
 				await prisma.property.createMany({
