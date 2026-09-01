@@ -11,6 +11,14 @@ async function startServer() {
 		await prisma.$connect();
 		console.log("Database connected successfully.");
 
+		// Ensure seed data and admin account exist
+		try {
+			const { SeedService } = await import("./modules/seed/seed.service.js");
+			await SeedService.ensureSeedData();
+		} catch (seedErr) {
+			console.error("Error during initial data seeding:", seedErr);
+		}
+
 		app.listen(PORT, () => {
 			console.log(
 				`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`,
