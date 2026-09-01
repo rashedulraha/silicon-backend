@@ -197,23 +197,34 @@ model AboutContent {
 }
 
 model HomeContent {
-  id               String   @id @default(cuid())
-  heroBadge        String
-  heroTitle        String
-  heroSubtitle     String
-  heroDesc         String
-  heroCtaText      String
-  heroCtaLink      String
-  trackRecordTitle String
-  trackRecordDesc  String
-  trustCounters    Json?
-  accreditations   Json?
-  ctaTitle         String
-  ctaDesc          String
-  ctaButtonText    String
-  ctaButtonLink    String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  heroBadge          String
+  heroTitle          String
+  heroSubtitle       String
+  heroDesc           String
+  heroCtaText        String
+  heroCtaLink        String
+  masterPlanBadge    String?  @default("MASTER PLAN")
+  masterPlanTitle    String?  @default("At a Glance: Township Layout")
+  masterPlanDesc     String?  @default("Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.")
+  masterPlanImage    String?  @default("https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200")
+  amenitiesBadge     String?  @default("LIFESTYLE AMENITIES")
+  amenitiesTitle     String?  @default("Integrated Modern Civic Amenities")
+  amenitiesDesc      String?  @default("Dedicated Central Mosque, Grand Athletics Sports Ground, Riverfront Green Eco Parks, School & Medical Centers inside the boundary.")
+  showcaseBadge      String?  @default("FLAGSHIP TOWNSHIP")
+  showcaseTitle      String?  @default("Silicon City — Planned Eco-Township")
+  showcaseDesc       String?  @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
+  trackRecordTitle   String
+  trackRecordDesc    String
+  trustCounters      Json?
+  accreditations     Json?
+  ctaTitle           String
+  ctaDesc            String
+  ctaButtonText      String
+  ctaButtonLink      String
+  sectionsConfig     Json?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model Project {
@@ -234,3 +245,33 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model ProjectsContent {
+  id                String   @id @default(cuid())
+  heroTitle         String   @default("Master Planned Townships & Prime Land Developments")
+  heroSubtitle      String   @default("Prime Land Developments")
+  heroDesc          String   @default("Silicon Real Estate (Pvt.) Ltd. develops legally secure, environment-friendly, and flood-protected mega townships designed for peaceful living and high-yielding real estate investments in Dhaka.")
+  trustMetrics      Json?
+  spotlightBadge    String   @default("FLAGSHIP TOWNSHIP")
+  spotlightTitle    String   @default("Silicon City — Planned Eco-Township")
+  spotlightDesc     String   @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
+  spotlightTag      String   @default("ONGOING MEGA PROJECT")
+  spotlightBoxTitle String   @default("RAJUK Extended Masterplan & Embankment Protected")
+  spotlightBoxDesc  String   @default("Silicon City falls under the proposed extended urban development master plan of RAJUK and is fully secured inside the proposed Dhaka Flood Protection Embankment for 100% environmental safety.")
+  spotlightLocation String   @default("Savar (Bara Badeshi)")
+  spotlightBadge2   String   @default("100% Ready Mutation")
+  specs             Json?
+  categories        Json?
+  amenities         Json?
+  proximities       Json?
+  roadmap           Json?
+  ctaBadge          String   @default("DIRECT CONSULTATION DESK")
+  ctaTitle          String   @default("Ready to Secure Your Plot in Silicon City?")
+  ctaDesc           String   @default("Schedule a guided vehicle site visit or speak directly with our senior property advisors at our Mohammadpur Corporate Office.")
+  ctaHotline        String   @default("+880 12 345 678 / +880 1712 345 678")
+  ctaEmail          String   @default("info@siliconrealestatepvtltd.com")
+  ctaOffice         String   @default("2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
