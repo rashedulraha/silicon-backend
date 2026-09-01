@@ -14,6 +14,7 @@ import { PropertyRoutes } from "./modules/property/property.routes.js";
 import { LeadRoutes } from "./modules/lead/lead.routes.js";
 import { GalleryRoutes } from "./modules/gallery/gallery.routes.js";
 import { SlideRoutes } from "./modules/slide/slide.routes.js";
+import ProjectsContentRoutes from "./modules/projects-content/projects-content.routes.js";
 
 export const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/v1/services", ServiceRoutes);
 app.use("/api/v1/service", ServiceRoutes);
 app.use("/api/v1/projects", ProjectRoutes);
 app.use("/api/v1/project", ProjectRoutes);
+app.use("/api/v1/projects-content", ProjectsContentRoutes);
 app.use("/api/v1/about-content", AboutRoutes);
 app.use("/api/v1/about", AboutRoutes);
 app.use("/api/v1/home-content", HomeRoutes);
@@ -51,3 +53,4 @@ app.use("/api/v1/properties", PropertyRoutes);
 app.use("/api/v1/leads", LeadRoutes);
 app.use("/api/v1/gallery", GalleryRoutes);
 app.use("/api/v1/slides", SlideRoutes);
+
